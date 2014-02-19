@@ -41,7 +41,9 @@ except NameError:
             cmd = kwargs.get("args")
             if cmd is None:
                 cmd = popenargs[0]
-            raise CalledProcessError(retcode, cmd, output=output)
+            error = CalledProcessError(retcode, cmd)
+            error.output = output
+            raise error
         return output
 
     def check_call(*popenargs, **kwargs):
