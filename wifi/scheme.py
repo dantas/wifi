@@ -113,7 +113,8 @@ class Scheme(object):
         """
         Writes the configuration to the :attr:`interfaces` file.
         """
-        assert not self.find(self.interface, self.name), "This scheme already exists"
+        if self.find(self.interface, self.name):
+            raise AssertionError("This scheme already exists")
 
         with open(self.interfaces, 'a') as f:
             f.write('\n')

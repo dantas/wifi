@@ -171,7 +171,8 @@ class PBKDF2(object):
 
     def __f(self, i):
         # i must fit within 32 bits
-        assert 1 <= i <= _0xffffffffL
+        if not 1 <= i <= _0xffffffffL:
+            raise AssertionError
         U = self.__prf(self.__passphrase, self.__salt + pack("!L", i))
         result = U
         for j in xrange(2, 1+self.__iterations):
