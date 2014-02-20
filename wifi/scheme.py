@@ -158,6 +158,12 @@ class Scheme(object):
         ifup_output = ifup_output.decode('utf-8')
 
         return self.parse_ifup_output(ifup_output)
+    def deactivate(self):
+        """
+        Disconnects the network from any network.
+        """
+        subprocess.check_output(['/sbin/ifdown', self.interface], stderr=subprocess.STDOUT)
+        subprocess.check_output(['/sbin/dhclient', '-r', self.interface], stderr=subprocess.STDOUT)
 
     def parse_ifup_output(self, output):
         matches = bound_ip_re.search(output)
