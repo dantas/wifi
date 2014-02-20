@@ -143,10 +143,7 @@ class Scheme(object):
         return '{0}-{1}'.format(self.interface, self.name)
 
     def as_args(self):
-        args = list(itertools.chain.from_iterable(
-            ('-o', '{k}={v}'.format(k=k, v=v)) for k, v in self.options.items()))
-
-        return [self.interface + '=' + self.iface] + args
+        return [self.interface + '=' + self.iface]
 
     def activate(self):
         """
