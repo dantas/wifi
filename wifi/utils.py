@@ -1,7 +1,9 @@
 from __future__ import print_function, unicode_literals, division
 
 import os
+import re
 import sys
+import wifi.subprocess_compat as subprocess
 
 
 if sys.version < '3':
@@ -55,3 +57,15 @@ def ensure_file_exists(filename):
     """
     if not os.path.exists(filename):
         open(filename, 'a').close()
+
+
+def connected_network(interface):
+    output = subprocess.check_output(['/sbin/iwgetid', interface],
+        stderr=subprocess.STDOUT)
+
+    m = re.search(r'\"([A-Za-z0-9_]+)\"', output)
+
+    if m:
+        return m.group(1)
+    else:
+        return None
