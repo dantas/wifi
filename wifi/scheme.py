@@ -3,7 +3,7 @@ import itertools
 
 import wifi.subprocess_compat as subprocess
 from pbkdf2 import PBKDF2
-from wifi.utils import ensure_file_exists
+from wifi.utils import ensure_file_exists, connected_network
 from wifi.exceptions import ConnectionError
 
 
@@ -176,6 +176,12 @@ class Connection(object):
     def __init__(self, scheme, ip_address):
         self.scheme = scheme
         self.ip_address = ip_address
+
+    @property
+    def is_connected(self):
+        network = connected_network(self.scheme.interface)
+        return network == (
+            self.scheme.options.get('wireless-essid', None) or self.scheme.options['wpa-ssid'])
 
 
 # TODO: support other interfaces
