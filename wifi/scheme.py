@@ -1,10 +1,10 @@
 import re
 import itertools
 
-import wifi.subprocess_compat as subprocess
+import subprocess_compat as subprocess
 from pbkdf2 import PBKDF2
-from wifi.utils import ensure_file_exists, connected_network
-from wifi.exceptions import ConnectionError
+from utils import ensure_file_exists, connected_network
+from exceptions import ConnectionError
 
 
 def configuration(cell, passkey=None):

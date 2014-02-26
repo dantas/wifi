@@ -3,7 +3,7 @@ from __future__ import print_function, unicode_literals, division
 import os
 import re
 import sys
-import wifi.subprocess_compat as subprocess
+import subprocess_compat as subprocess
 
 
 if sys.version < '3':
