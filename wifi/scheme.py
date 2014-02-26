@@ -153,12 +153,12 @@ class Scheme(object):
         """
         Connects to the network as configured in this scheme.
         """
+        subprocess.check_call(['/sbin/ifup'] + self.as_args(), stderr=subprocess.STDOUT)
+        dhclient_output = subprocess.check_output(['/sbin/dhclient', '-v', self.interface],
+            stderr=subprocess.STDOUT).decode('utf-8')
 
-        subprocess.check_output(['/sbin/ifdown', self.interface], stderr=subprocess.STDOUT)
-        ifup_output = subprocess.check_output(['/sbin/ifup'] + self.as_args(), stderr=subprocess.STDOUT)
-        ifup_output = ifup_output.decode('utf-8')
+        return self.parse_dhclient_output(dhclient_output)
 
-        return self.parse_ifup_output(ifup_output)
     def deactivate(self):
         """
         Disconnects the network from any network.
@@ -166,7 +166,7 @@ class Scheme(object):
         subprocess.check_output(['/sbin/ifdown', self.interface], stderr=subprocess.STDOUT)
         subprocess.check_output(['/sbin/dhclient', '-r', self.interface], stderr=subprocess.STDOUT)
 
-    def parse_ifup_output(self, output):
+    def parse_dhclient_output(self, output):
         matches = bound_ip_re.search(output)
         if matches:
             return Connection(scheme=self, ip_address=matches.group('ip_address'))
