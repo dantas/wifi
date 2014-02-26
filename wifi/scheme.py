@@ -139,6 +139,10 @@ class Scheme(object):
             f.write(content)
 
     @property
+    def ssid(self):
+        return self.options.get('wireless-essid', None) or self.options['wpa-ssid']
+
+    @property
     def iface(self):
         return '{0}-{1}'.format(self.interface, self.name)
 
@@ -180,8 +184,7 @@ class Connection(object):
     @property
     def is_connected(self):
         network = connected_network(self.scheme.interface)
-        return network == (
-            self.scheme.options.get('wireless-essid', None) or self.scheme.options['wpa-ssid'])
+        return network == self.scheme.ssid
 
 
 # TODO: support other interfaces
