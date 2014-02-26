@@ -1,3 +1,3 @@
-from wifi.scan import Cell
-from wifi.scheme import Scheme
-from wifi.utils import connected_network
+from scan import Cell
+from scheme import Scheme
+from utils import connected_network
