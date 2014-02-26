@@ -37,7 +37,7 @@ def configuration(cell, passkey=None):
             raise NotImplementedError
 
 
-bound_ip_re = re.compile(r'^Lease of (?P<ip_address>\S+) obtained', flags=re.MULTILINE)
+bound_ip_re = re.compile(r'^bound to (?P<ip_address>\S+)', flags=re.MULTILINE)
 
 
 class Scheme(object):
@@ -153,11 +153,12 @@ class Scheme(object):
         """
         Connects to the network as configured in this scheme.
         """
-        ifup_output = subprocess.check_output(['/sbin/ifup', '-vf'] + self.as_args(),
-            stderr=subprocess.STDOUT).decode('utf-8')
+
+        subprocess.check_output(['/sbin/ifdown', self.interface], stderr=subprocess.STDOUT)
+        ifup_output = subprocess.check_output(['/sbin/ifup'] + self.as_args(), stderr=subprocess.STDOUT)
+        ifup_output = ifup_output.decode('utf-8')
 
         return self.parse_ifup_output(ifup_output)
-
     def deactivate(self):
         """
         Disconnects the network from any network.
