@@ -187,6 +187,11 @@ class Connection(object):
         network = connected_network(self.scheme.interface)
         return network == self.scheme.ssid
 
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+            self.scheme.ssid == other.scheme.ssid and
+            self.scheme.interface == other.scheme.interface)
+
 
 # TODO: support other interfaces
 scheme_re = re.compile(r'iface\s+(?P<interface>wlan\d?)(?:-(?P<name>\w+))?')
