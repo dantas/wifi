@@ -153,8 +153,8 @@ class Scheme(object):
         """
         Connects to the network as configured in this scheme.
         """
-        dhclient_output = subprocess.check_output(['/sbin/dhclient', '-v', self.interface],
         subprocess.check_call(['/sbin/ifup', '-f'] + self.as_args())
+        dhclient_output = subprocess.check_output(['/sbin/dhclient', '-1', '-v', self.interface],
             stderr=subprocess.STDOUT).decode('utf-8')
 
         return self.parse_dhclient_output(dhclient_output)
