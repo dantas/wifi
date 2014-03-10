@@ -56,8 +56,8 @@ class Cell(object):
 
 
 cells_re = re.compile(r'Cell \d+ - ')
-quality_re_dict = {'dBm': re.compile(r'Quality=(\d+/\d+).*Signal level=(-\d+) dBm'),
-                   'relative': re.compile(r'Quality=(\d+/\d+).*Signal level=(\d+/\d+)')}
+quality_re_dict = {'dBm': re.compile(r'Quality:(\d+/\d+).*Signal level:(-\d+) dBm'),
+                   'relative': re.compile(r'Quality:(\d+/\d+).*Signal level:(\d+/\d+)')}
 frequency_re = re.compile(r'([\d\.]+ .Hz).*Channel\s+(\d+).*')
 
 
@@ -81,6 +81,7 @@ normalize_value = {
     'encrypted': lambda v: v == 'on',
     'address': identity,
     'mode': identity,
+    'channel': identity,
 }
 
 
